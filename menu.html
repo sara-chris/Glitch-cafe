@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Glitch Café - Menu</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #0ff;
+      font-family: 'Courier New', Courier, monospace;
+      margin: 40px 20px;
+      text-align: center;
+      user-select: none;
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 25px;
+      text-shadow:
+        2px 2px 5px #0ff,
+        -2px -2px 5px #0ff;
+      animation: flicker 3s infinite;
+    }
+    nav {
+      margin-bottom: 30px;
+    }
+    nav a {
+      color: #0ff;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 1.2rem;
+      text-shadow: 1px 0 red, -1px 0 blue;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #0cc;
+    }
+    #menu-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: rgba(0, 17, 17, 0.85);
+      border: 2px solid #0ff;
+      border-radius: 10px;
+      padding: 25px 20px;
+      box-shadow: 0 0 40px #0ff;
+      text-align: left;
+      user-select: text;
+      min-height: 370px;
+      position: relative;
+    }
+    ul#menu-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px 0;
+      font-size: 1.4rem;
+      line-height: 1.6;
+      color: #0ff;
+      cursor: default;
+      user-select: text;
+      text-shadow: 1px 0 red, -1px 0 blue;
+    }
+    ul#menu-list li {
+      margin-bottom: 18px;
+      position: relative;
+      transition: none;
+    }
+
+    /* Harsher flicker glitch effect */
+    .glitch-flicker {
+      position: relative;
+      color: #0ff;
+      animation: harshFlickerGlitch 0.1s infinite;
+      filter: drop-shadow(1px 0 red) drop-shadow(-1px 0 blue);
+      user-select: text;
+    }
+    .glitch-flicker::before,
+    .glitch-flicker::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+      color: #0ff;
+      clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+      user-select: text;
+    }
+    .glitch-flicker::before {
+      top: -3px;
+      left: 3px;
+      text-shadow: -3px 0 red;
+      clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+      animation: harshFlickerGlitchBefore 0.1s infinite;
+    }
+    .glitch-flicker::after {
+      top: 3px;
+      left: -3px;
+      text-shadow: -3px 0 blue;
+      clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+      animation: harshFlickerGlitchAfter 0.1s infinite;
+    }
+
+    @keyframes harshFlickerGlitch {
+      0%, 33%, 66%, 100% {
+        opacity: 1; 
+        transform: translate(0) skew(0);
+        filter: drop-shadow(1px 0 red) drop-shadow(-1px 0 blue);
+      }
+      11%, 44%, 77% {
+        opacity: 0.1; 
+        transform: translate(calc(-3px + 6px * var(--randX)), calc(-3px + 6px * var(--randY))) skew(-15deg, 15deg);
+        filter: drop-shadow(3px 0 red) drop-shadow(-3px 0 blue);
+      }
+      22%, 55%, 88% {
+        opacity: 0.2; 
+        transform: translate(calc(3px - 6px * var(--randX)), calc(3px - 6px * var(--randY))) skew(15deg, -15deg);
+        filter: drop-shadow(2px 0 red) drop-shadow(-2px 0 blue);
+      }
+    }
+    @keyframes harshFlickerGlitchBefore {
+      0%, 33%, 66%, 100% {
+        clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+        transform: translate(0);
+      }
+      11%, 44%, 77% {
+        clip-path: polygon(0 5%, 100% 5%, 100% 30%, 0 30%);
+        transform: translate(-5px, 2px);
+      }
+      22%, 55%, 88% {
+        clip-path: polygon(0 10%, 100% 10%, 100% 25%, 0 25%);
+        transform: translate(4px, -2px);
+      }
+    }
+    @keyframes harshFlickerGlitchAfter {
+      0%, 33%, 66%, 100% {
+        clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+        transform: translate(0);
+      }
+      11%, 44%, 77% {
+        clip-path: polygon(0 65%, 100% 65%, 100% 90%, 0 90%);
+        transform: translate(5px, -2px);
+      }
+      22%, 55%, 88% {
+        clip-path: polygon(0 70%, 100% 70%, 100% 85%, 0 85%);
+        transform: translate(-4px, 2px);
+      }
+    }
+
+    #side-effects {
+      margin-top: 20px;
+      font-size: 1rem;
+      color: #f00;
+      text-shadow: 1px 0 #800, -1px 0 #800;
+      user-select: text;
+      border-top: 1px solid #f00;
+      padding-top: 15px;
+    }
+
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+      }
+      20%, 22%, 24%, 55% {
+        opacity: 0.4;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Glitch Café - Menu</h1>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="menu.html">Menu</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <section id="menu-container">
+    <ul id="menu-list">
+      <li data-text="Espresso — $3.00">Espresso — $3.00</li>
+      <li data-text="Glitch Latte — $4.50">Glitch Latte — $4.50</li>
+      <li data-text="Neon Cappuccino — $4.00">Neon Cappuccino — $4.00</li>
+      <li data-text="Cyber Mocha — $4.75">Cyber Mocha — $4.75</li>
+      <li data-text="Pixel Smoothie — $5.00">Pixel Smoothie — $5.00</li>
+    </ul>
+
+    <div id="side-effects">
+      ⚠️ Side Effects: May cause temporary digital hallucinations, slight jitteriness, and a craving for more glitches.
+    </div>
+  </section>
+
+  <script>
+    const menuList = document.getElementById('menu-list');
+    const menuItems = menuList.querySelectorAll('li');
+
+    // Array of normal + glitchy menu items to cycle through
+    const menuDataSets = [
+      [
+        "Espresso — $3.00",
+        "Glitch Latte — $4.50",
+        "Neon Cappuccino — $4.00",
+        "Cyber Mocha — $4.75",
+        "Pixel Smoothie — $5.00"
+      ],
+      [
+        "Fr33z3 Brew — $3.50",
+        "Datastream Drip — $4.85",
+        "Bit Byte Brew — $4.25",
+        "Quantum Quench — $5.10",
+        "Gl1tch Shake — $5.50"
+      ],
+      [
+        "Corrupt Cappuccino — $3.95",
+        "Blue Screen Brew — $4.90",
+        "404 Latte — $4.20",
+        "Syntax Sip — $5.25",
+        "Bitrate Blast — $5.75"
+      ],
+      [
+        "Pixelated Punch — $4.10",
+        "Frame Drop Frappe — $4.65",
+        "Buffering Brew — $4.30",
+        "Memory Leak Macchiato — $5.00",
+        "Ghost in the Java — $5.40"
+      ],
+      [
+        "Syntax Error Espresso — $3.70",
+        "Cache Cola — $4.80",
+        "Overclocked Oolong — $4.55",
+        "Kernel Kickstart — $5.15",
+        "Bit Blaster — $5.60"
+      ]
+    ];
+
+    // Assign random CSS vars for flicker jitter on all items initially
+    menuItems.forEach(item => {
+      item.style.setProperty('--randX', Math.random());
+      item.style.setProperty('--randY', Math.random());
+    });
+
+    // Function to get random unique integers (for flickering)
+    function getRandomInts(count, max) {
+      const set = new Set();
+      while (set.size < count) {
+        set.add(Math.floor(Math.random() * max));
+      }
+      return Array.from(set);
+    }
+
+    // Glitch flicker logic for 2-3 random items at a time
+    let flickerTimeout;
+    function flickerGlitchBurst() {
+      menuItems.forEach(li => li.classList.remove('glitch-flicker'));
+
+      const glitchCount = 2 + Math.floor(Math.random() * 2); // 2 or 3
+      const indices = getRandomInts(glitchCount, menuItems.length);
+
+      indices.forEach(i => menuItems[i].classList.add('glitch-flicker'));
+
+      let flickerDuration = 1000;
+      let flickerEnd = Date.now() + flickerDuration;
+
+      function flickerPulse() {
+        if (Date.now() > flickerEnd) {
+          menuItems.forEach(li => li.classList.remove('glitch-flicker'));
+          flickerTimeout = setTimeout(flickerGlitchBurst, 500 + Math.random() * 1500);
+          return;
+        }
+        indices.forEach(i => {
+          menuItems[i].classList.toggle('glitch-flicker');
+        });
+        setTimeout(flickerPulse, 100);
+      }
+      flickerPulse();
+    }
+    flickerTimeout = setTimeout(flickerGlitchBurst, 500 + Math.random() * 1500);
+
+    // Function to update menu items text + data-text attr every 5 seconds
+    let currentSetIndex = 0;
+    function updateMenuItems() {
+      currentSetIndex = (currentSetIndex + 1) % menuDataSets.length;
+      const newSet = menuDataSets[currentSetIndex];
+      menuItems.forEach((li, idx) => {
+        li.textContent = newSet[idx];
+        li.setAttribute('data-text', newSet[idx]);
+        // Update jitter CSS vars so flicker shifts position randomly every cycle
+        li.style.setProperty('--randX', Math.random());
+        li.style.setProperty('--randY', Math.random());
+      });
+    }
+    setInterval(updateMenuItems, 5000);
+  </script>
+</body>
+</html>
