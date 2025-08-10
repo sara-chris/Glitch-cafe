@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Glitch Café - Home</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
+  
+  body {
+    background-color: #000;
+    color: #0ff;
+    font-family: 'Courier Prime', monospace;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    text-align: center;
+    position: relative;
+  }
+  
+  h1 {
+    font-size: 4rem;
+    text-shadow:
+      2px 2px 5px #0ff,
+      -2px -2px 5px #0ff;
+    animation: flicker 4s infinite;
+    position: relative;
+  }
+  
+  h2 {
+    margin-top: 20px;
+    font-size: 1.8rem;
+    color: #0ff;
+    text-shadow: 1px 0 red, -1px 0 blue;
+    animation: glitchText 3s infinite;
+  }
+  
+  nav {
+    margin-top: 40px;
+    display: flex;
+    gap: 30px;
+  }
+  
+  nav a {
+    color: #0ff;
+    text-decoration: none;
+    font-size: 1.5rem;
+    padding: 12px 24px;
+    border: 2px solid #0ff;
+    border-radius: 8px;
+    user-select: none;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    text-shadow: 1px 0 red, -1px 0 blue;
+    animation: glitchLink 4s infinite;
+  }
+  
+  nav a:hover {
+    background-color: #0ff;
+    color: #000;
+    text-shadow: none;
+  }
+  
+  /* Glitch flicker animations */
+  @keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+    20%, 22%, 24%, 55% { opacity: 0.3; }
+  }
+  
+  @keyframes glitchText {
+    0% {
+      text-shadow: 1px 0 red, -1px 0 blue;
+      color: #0ff;
+    }
+    10% {
+      text-shadow: 5px 0 lime, -5px 0 magenta;
+      color: #0ff;
+      opacity: 0.7;
+    }
+    20% {
+      text-shadow: 1px 0 red, -1px 0 blue;
+      color: #0ff;
+      opacity: 1;
+    }
+    30% {
+      text-shadow: 3px 0 cyan, -3px 0 yellow;
+      color: #0ff;
+      opacity: 0.5;
+    }
+    40%, 100% {
+      text-shadow: 1px 0 red, -1px 0 blue;
+      color: #0ff;
+      opacity: 1;
+    }
+  }
+  
+  @keyframes glitchLink {
+    0%, 20%, 40%, 60%, 80%, 100% {
+      text-shadow: 1px 0 red, -1px 0 blue;
+      transform: translate(0);
+      color: #0ff;
+    }
+    10%, 30%, 50%, 70%, 90% {
+      text-shadow:
+        2px 0 lime,
+        -2px 0 magenta,
+        5px 0 cyan;
+      color: #0ff;
+      transform: translate(calc(-2px + var(--randX)), calc(-2px + var(--randY)));
+    }
+  }
+  
+  /* Heavy screen flicker overlay */
+  #screen-flicker {
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,255,255,0.05);
+    pointer-events: none;
+    animation: screenFlickerAnim 0.15s infinite;
+    mix-blend-mode: screen;
+    z-index: 10;
+  }
+  
+  @keyframes screenFlickerAnim {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.15; }
+  }
+  
+  /* Random horizontal glitch slices */
+  .glitch-slice {
+    position: fixed;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: #0ff;
+    opacity: 0.3;
+    mix-blend-mode: screen;
+    animation: glitchSliceAnim 0.1s infinite;
+    pointer-events: none;
+    z-index: 15;
+  }
+  
+  @keyframes glitchSliceAnim {
+    0%, 100% { transform: translateX(0); opacity: 0.3; }
+    50% { transform: translateX(10px); opacity: 0.7; }
+  }
+  
+</style>
+</head>
+<body>
+
+  <h1>Glitch Café</h1>
+  <h2>Welcome to the glitchiest coffee experience</h2>
+
+  <nav>
+    <a href="menu.html">Menu</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <div id="screen-flicker"></div>
+
+  <!-- Create random glitch slices -->
+  <script>
+    function createGlitchSlice(yPos, delay) {
+      const slice = document.createElement('div');
+      slice.className = 'glitch-slice';
+      slice.style.top = yPos + 'px';
+      slice.style.animationDelay = delay + 's';
+      slice.style.width = (Math.random() * 100 + 50) + 'vw';
+      slice.style.left = (Math.random() * 100 - 50) + 'vw';
+      document.body.appendChild(slice);
+      setTimeout(() => {
+        slice.remove();
+      }, 300 + delay * 1000);
+    }
+
+    function glitchLoop() {
+      const vh = window.innerHeight;
+      const glitchCount = Math.floor(Math.random() * 3) + 2;
+      for(let i = 0; i < glitchCount; i++) {
+        const y = Math.random() * vh;
+        const delay = Math.random() * 0.5;
+        createGlitchSlice(y, delay);
+      }
+    }
+
+    setInterval(() => {
+      glitchLoop();
+    }, 350);
+  </script>
+
+</body>
+</html>
